@@ -38,9 +38,8 @@
     </script>
  <?php
  if(isset($_POST['submitSendVideo'])){
-  echo("<pre>");
-  print_r($_FILES);
-  echo("</pre>");
+  $attachment_id = media_handle_upload('video_upload', 0);
+  
  }else{
      echo("notdale");
  }
