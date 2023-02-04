@@ -17,6 +17,7 @@
 		<button id="button_getVideo" type="button" style="    width: auto;    height: 37px;    overflow: hidden;    z-index: 0; background-color:#FA8D9B; color:#fff;		font-size: 1rem;    line-height: 1.5;    border-radius: 0.25rem; border: 1px solid transparent;    padding: 0.375rem 0.75rem; margin-bottom:2rem;">			Browser Video ...
 		</button>
 		<p id="video_name"></p>
+    <p class="errSendVideo successSendVideo"></p>
 		<br/>
 	</div>
 	<div class="description alert alert-danger" style="    text-align: start;">
@@ -34,14 +35,26 @@
 		})
         function getVideo(){
 			document.getElementById("video_name").innerText = document.getElementById("video_send").files[0].name
+      console.log(document.getElementsByClassName('errSendVideo'))
 		}
     </script>
  <?php
  if(isset($_POST['submitSendVideo'])){
-  $attachment_id = media_handle_upload('video_upload', 0);
-  
+     require_once( ABSPATH . 'wp-admin/includes/image.php');
+     require_once( ABSPATH . 'wp-admin/includes/file.php');
+     require_once( ABSPATH . 'wp-admin/includes/media.php');
+     if($_FILES["video_upload"]["type"] != "video/mp4" && $_FILES["video_upload"]["type"] != "video/wmv" && $_FILES["video_upload"]["type"] != "video/avi" && $_FILES["video_upload"]["type"] != "video/mov"){
+      echo("<script>document.getElementsByClassName('errSendVideo').innerText = 'erro, tipo de arquivo não permitido'</script>");
+     }else{
+      if($_FILES["video_upload"]["size"] > 83886080){
+        echo("<script>document.getElementsByClassName('errSendVideo').innerText = 'erro, tamanho excede 80mb'</script>"); 
+      }else{
+        $attachment_id = media_handle_upload('video_upload', 0);
+        echo("<script>document.getElementsByClassName('successSendVideo').innerText ='Video adicionado a biblioteca'</script>");
+      }
+     }
  }else{
-     echo("notdale");
+     echo("<script>document.getElementsByClassName('errSendVideo').innerText = 'erro, arquivo não pode ser lido. Tente novamente ou contate o suporte'</script>");
  }
 }
  add_shortcode('uploadVideo', "uploadVideo");
