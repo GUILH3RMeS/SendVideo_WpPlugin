@@ -21,8 +21,8 @@
 		<br/>
 	</div>
 	<div class="description alert alert-danger" style="    text-align: start;">
-    <p>Recommended video size to (1280x720)</p>
-    <p>video maximum size 248 MB.</p>
+    <p>Recommended video quality to (720p / 480p)</p>
+    <p>video maximum size 80 MB.</p>
     <p>Allowed video type (mp4, wmv,avi , mov).</p>
   </div>
   <button type="submit" name="submitSendVideo">Send video</button>
@@ -35,7 +35,6 @@
 		})
         function getVideo(){
 			document.getElementById("video_name").innerText = document.getElementById("video_send").files[0].name
-      console.log(document.getElementsByClassName('errSendVideo'))
 		}
     </script>
  <?php
@@ -44,17 +43,17 @@
      require_once( ABSPATH . 'wp-admin/includes/file.php');
      require_once( ABSPATH . 'wp-admin/includes/media.php');
      if($_FILES["video_upload"]["type"] != "video/mp4" && $_FILES["video_upload"]["type"] != "video/wmv" && $_FILES["video_upload"]["type"] != "video/avi" && $_FILES["video_upload"]["type"] != "video/mov"){
-      echo("<script>document.getElementsByClassName('errSendVideo').innerText = 'erro, tipo de arquivo não permitido'</script>");
+      echo("<script>document.getElementsByClassName('errSendVideo')[0].innerHTML = 'erro, tipo de arquivo nao permitido'</script>");
      }else{
       if($_FILES["video_upload"]["size"] > 83886080){
-        echo("<script>document.getElementsByClassName('errSendVideo').innerText = 'erro, tamanho excede 80mb'</script>"); 
+        echo("<script>document.getElementsByClassName('errSendVideo')[0].innerHTML = 'erro, tamanho excede 80mb'</script>"); 
       }else{
         $attachment_id = media_handle_upload('video_upload', 0);
-        echo("<script>document.getElementsByClassName('successSendVideo').innerText ='Video adicionado a biblioteca'</script>");
+        echo("<script>document.getElementsByClassName('successSendVideo')[0].innerHTML ='Video adicionado a biblioteca'</script>");
       }
      }
  }else{
-     echo("<script>document.getElementsByClassName('errSendVideo').innerText = 'erro, arquivo não pode ser lido. Tente novamente ou contate o suporte'</script>");
+     echo("<script>document.getElementsByClassName('errSendVideo')[0].innerHTML = 'Selecione um arquivo'</script>");
  }
 }
  add_shortcode('uploadVideo', "uploadVideo");
